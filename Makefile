@@ -33,7 +33,7 @@ SIMULATOR := iverilog
 LINT_INCLUDES := -I$(PDKPATH) -I$(realpath gl)
 SIMULATOR_ARGS := -g2012 -DFUNCTIONAL -DUSE_POWER_PINS 
 SIMULATOR_BINARY := a.out
-SIMULATOR_SRCS = $(realpath gl)/* *.sv
+SIMULATOR_SRCS = $(realpath gl)/*  *.sv
 endif
 
 LINT_OPTS += --lint-only --timing $(LINT_INCLUDES)
@@ -84,12 +84,11 @@ tests/%: FORCE
 itests: 
 	@ICARUS=1 make tests
 
+RECENT=$(shell ls runs | tail -n 1)
+GL_NAME =$(shell ls runs/$(RECENT)/final/pnl/)
 gl_tests:
 	@mkdir -p gl
-	@cp runs/recent/final/pnl/* gl/
-	@cat scripts/gatelevel.vh gl/*.v > gl/temp
-	@mv -f gl/temp gl/*.v
-	@rm -f gl/temp
+	@cat scripts/gatelevel.vh runs/$(RECENT)/final/pnl/$(GL_NAME) > gl/$(GL_NAME)
 	@GL=1 make tests
 
 .PHONY: $(TESTS)
