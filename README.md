@@ -8,13 +8,13 @@ Your task is to design, test, and lay out a 2-port wishbone-accessible RAM.
   - If both ports of your ram access different DFFRAM macros, all is well.
   - If both ports try to access the same chunk of memory, your design will have to send delegate access such that each port takes turns.
     - This will be accomplished by driving a stall signal.
-- Both ports of your ram will be compatible with the wishbone interface.
+- Both ports of your ram will be compatible with the pipelined wishbone interface.
   - For a refresher on wishbone, check out [this link by ZipCPU](https://zipcpu.com/zipcpu/2017/05/29/simple-wishbone.html)
 
-# Part 1
+# Part 1: RTL Design and Testing
 ## Signal Naming
 There are many ways of naming bus signals. We are going to go with the following convention:
-`port_signal_direction`
+`<port>_<signal>_<direction>`
 
 For Example, the `wb_addr` signal on port A is an input to your RAM. It would be named:
 `pA_wb_addr_i`
@@ -363,9 +363,26 @@ MAX_TRANSITION_CONSTRAINT: 1.5
 
 </td></tr></table>
 
+# Part 3 - Gate Level Simulation
+
+Gate level simulation with macros can be complicated. Generally it can be accomplished with the following steps:
+1. Create a folder called `gl` and copy the gate level netlist of your macro into it. The netlist should be in the `hdl/gl` directory of your macro. It is either a `.v` or `.pnl.v` file.
+2. Adjust the hierarchy of your waveform by using:
+
+>```Verilog
+>$dumpvars(2, tb_mem);
+>```
+>This sets your output to 2 levels of saved hierarchy. If you save the whole hierarchy, your dumpfile will be too large to open.
+
+3. Follow all gate level steps from [this link](https://github.com/Cal-Poly-Open-Source-ASIC-Class/lab2/issues/1)
+4. Run `make gl_tests`
+5. If changes need to be made to your design, it must be re-run through openlane first.
+
   # Deliverables
   - RTL for 2-Port Wishbone RAM
   - Testbench with tasks for reading/writing each ram port
     - Includes concurrent tests on both ports to demonstrate collisions and delegation
   - Openlane Configuration for Macro Placement
   - Screenshots of final placed macro design
+  - Gate Level Testing
+    - This is worth a small amount of points due to difficulty. Don't sink too much time into it.
