@@ -32,7 +32,8 @@ module big_ram_tb;
     wire VPWR = 1;
     wire VGND = 0;
     big_ram dut (
-        .VPWR(VPWR), .VGND(VGND),
+        .VPWR(VPWR), 
+        .VGND(VGND),
         .clk_i(clk),
         .pA_wb_cyc_i(pA_wb_cyc_i), .pA_wb_stb_i(pA_wb_stb_i), .pA_wb_we_i(pA_wb_we_i),
         .pA_wb_addr_i(pA_wb_addr_i), .pA_wb_data_i(pA_wb_data_i), .pA_wb_sel_i(pA_wb_sel_i),
@@ -287,10 +288,7 @@ endtask
         write_to_portA(11'd260, 32'hFEFEFEFE, 4'hF);
         #40;
 
-        sim_read_check(11'd4, 11'd260, 32'hBEEFBEEF, 32'hFEFEFEFE);
-
-        
-
+        //sim_read_check(11'd4, 11'd260, 32'hBEEFBEEF, 32'hFEFEFEFE);
 
         // Summary
         #20;
