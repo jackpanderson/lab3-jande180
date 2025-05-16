@@ -294,7 +294,8 @@ endtask
 
         // Summary
         #20;
-        $display("==== Test Summary: %0d tests, %0d errors ====", tests, errors);
+        $display("==== Test Summary: %0d tests, %0d err ====", tests, errors);
+        
         if (errors > 0) $error("%0d failures detected", errors);
         else             $display("All tests passed!");
         #10 $finish;

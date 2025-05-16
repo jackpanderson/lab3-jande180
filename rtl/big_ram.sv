@@ -25,6 +25,7 @@ module big_ram(
 );
 
     logic pAtoRAM0, pBtoRAM0; //For routing outputs from RAM modules
+    logic [7:0] pAextractedAddr, pBextractedAddr;
 
     logic conflict;         //High when both ports conflict on bank
     logic headbutt_winner = 1'b0;
@@ -57,6 +58,8 @@ module big_ram(
 
     assign pAtoRAM0 = ~pA_wb_addr_i[10];
     assign pBtoRAM0 = ~pB_wb_addr_i[10];
+    assign pAextractedAddr = pA_wb_addr_i[9:2];
+    assign pBextractedAddr = pB_wb_addr_i[9:2];
 
     // RAM macros
     DFFRAM256x32 ram0 (
@@ -106,12 +109,12 @@ module big_ram(
             if (pAtoRAM0) begin
                 ram0_EN0  = 1'b1;
                 ram0_WE0  = pA_write_mask;
-                ram0_A0   = pA_wb_addr_i[9:2];
+                ram0_A0   = pAextractedAddr;
                 ram0_Di0  = pA_wb_data_i;
             end else begin
                 ram1_EN0  = 1'b1;
                 ram1_WE0  = pA_write_mask;
-                ram1_A0   = pA_wb_addr_i[9:2];
+                ram1_A0   = pAextractedAddr;
                 ram1_Di0  = pA_wb_data_i;
             end
         end
@@ -120,13 +123,13 @@ module big_ram(
             if (pBtoRAM0) begin
                 ram0_EN0  = 1'b1;
                 ram0_WE0  = pB_write_mask;
-                ram0_A0   = pB_wb_addr_i[9:2];
+                ram0_A0   = pBextractedAddr;
                 ram0_Di0  = pB_wb_data_i;
             end 
             else begin
                 ram1_EN0  = 1'b1;
                 ram1_WE0  = pB_write_mask;
-                ram1_A0   = pB_wb_addr_i[9:2];
+                ram1_A0   = pBextractedAddr;
                 ram1_Di0  = pB_wb_data_i;
             end
         end
