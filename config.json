@@ -4,7 +4,7 @@
   "CLOCK_PORT": "clk_i",
   "CLOCK_PERIOD": 100,
   "FP_SIZING": "absolute",
-  "DIE_AREA": [0, 0, 2000, 2000],
+  "DIE_AREA": [0, 0, 10000, 10000],
   "VDD_NETS": ["VPWR"],
   "GND_NETS": ["VGND"],
   "MACROS": {
