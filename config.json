@@ -2,21 +2,21 @@
   "DESIGN_NAME": "big_ram",
   "VERILOG_FILES": "dir::rtl/*",
   "CLOCK_PORT": "clk_i",
-  "CLOCK_PERIOD": 100,
+  "CLOCK_PERIOD": 30,
   "FP_SIZING": "absolute",
-  "DIE_AREA": [0, 0, 10000, 10000],
+  "DIE_AREA": [0, 0, 3000, 1000],
   "VDD_NETS": ["VPWR"],
   "GND_NETS": ["VGND"],
   "MACROS": {
     "DFFRAM256x32": {
       "instances": {
         "ram0": {
-          "location": [200, 100],
+          "location": [300, 300],
           "orientation": "N"
         },
         "ram1": {
-          "location": [1200, 100],
-          "orientation": "FS"
+          "location": [1700, 300],
+          "orientation": "N"
         }
       },
       "gds": ["dir::macros/dffram256x32/layout/gds/DFFRAM256x32.gds"],
