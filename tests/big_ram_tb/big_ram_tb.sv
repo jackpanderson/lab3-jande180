@@ -6,6 +6,8 @@ module big_ram_tb;
     logic clk = 0;
     always #5 clk = ~clk; // 100 MHz
 
+    logic rst;
+
     // Port A signals
     reg          pA_wb_cyc_i, pA_wb_stb_i, pA_wb_we_i;
     reg  [10:0]  pA_wb_addr_i;
@@ -35,6 +37,7 @@ module big_ram_tb;
         .VPWR(VPWR), 
         .VGND(VGND),
         .clk_i(clk),
+        .rst_i(rst),
         .pA_wb_cyc_i(pA_wb_cyc_i), .pA_wb_stb_i(pA_wb_stb_i), .pA_wb_we_i(pA_wb_we_i),
         .pA_wb_addr_i(pA_wb_addr_i), .pA_wb_data_i(pA_wb_data_i), .pA_wb_sel_i(pA_wb_sel_i),
         .pA_wb_ack_o(pA_wb_ack_o), .pA_wb_stall_o(pA_wb_stall_o), .pA_wb_data_o(pA_wb_data_o),
@@ -45,6 +48,7 @@ module big_ram_tb;
 `else
     big_ram dut (
         .clk_i(clk),
+        .rst_i(rst),
         .pA_wb_cyc_i(pA_wb_cyc_i), .pA_wb_stb_i(pA_wb_stb_i), .pA_wb_we_i(pA_wb_we_i),
         .pA_wb_addr_i(pA_wb_addr_i), .pA_wb_data_i(pA_wb_data_i), .pA_wb_sel_i(pA_wb_sel_i),
         .pA_wb_ack_o(pA_wb_ack_o), .pA_wb_stall_o(pA_wb_stall_o), .pA_wb_data_o(pA_wb_data_o),
@@ -268,6 +272,9 @@ endtask
         // Reset signals
         {pA_wb_cyc_i, pA_wb_stb_i, pA_wb_we_i, pA_wb_addr_i, pA_wb_data_i, pA_wb_sel_i} = 0;
         {pB_wb_cyc_i, pB_wb_stb_i, pB_wb_we_i, pB_wb_addr_i, pB_wb_data_i, pB_wb_sel_i} = 0;
+        rst = 0;
+        #20;
+        rst = 1;
         #20;
 
         // Run tests

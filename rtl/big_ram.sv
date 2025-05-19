@@ -1,5 +1,6 @@
 module big_ram(
     input  logic        clk_i,
+    input  logic        rst_i,
 
     // Port A Wishbone
     input  logic        pA_wb_cyc_i,
@@ -136,6 +137,11 @@ module big_ram(
     end
 
     always_ff @(posedge clk_i) begin
+        if (!rst_i)
+        begin
+            headbutt_winner <= 0;
+            
+        end
 
         if (conflict)
             headbutt_winner <= ~headbutt_winner;
